@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import { getFakestore } from "../services/fakestore.service";
-import { FakeStore, Data, Rating } from "../interfaces/fakestore.interface"
+import { Data } from "../interfaces/fakestore.interface"
 import { FlatList, View, Text } from 'react-native';
 
 const Products: React.FC = () => {
@@ -10,10 +10,12 @@ const Products: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
+                console.log("Obteniendo productos...");
+                
                 const data = await getFakestore();
                 setProductos(data);
             } catch (error) {
-                console.log(error);
+                console.error("Ha ocurrido un error: ", error);
             }
         };
         fetchData();
@@ -25,10 +27,11 @@ const Products: React.FC = () => {
                 data={productos}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
-                    <View>
-                        <Text style={styles.textContainer}>
-                            {item.title}
-                        </Text>
+                    <View style={styles.itemContainer}>
+                        
+                            <Text style={styles.textContainer}> {item.title}</Text>
+                            <Text style={styles.priceContainer}> {item.price}</Text>
+                        
                     </View>
                 )}
             />
@@ -37,10 +40,31 @@ const Products: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-    textContainer: {
-        fontSize:15,
-        color: '#001908',
+    itemContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+
+        margin: 5,
+        padding: 5,
+
+        borderColor: '#000',
+        borderWidth: 1,
+        borderRadius: 5,
     },
+    textContainer: {
+        width: '80%',
+        paddingEnd: 20,
+        fontSize:15,
+        color: '#F28500',
+        borderRightWidth: 1,
+        borderRightColor: '#000',
+    },
+    priceContainer: {
+        width: '20%',
+        fontSize:15,
+        color: '#F28500',
+    }
 });
 
 export default Products;
