@@ -3,7 +3,7 @@ import { Text, StyleSheet, Pressable } from "react-native";
 
 interface ButtonProps {
     onPress: () => void;
-    title?: string;
+    title?: string | React.ReactElement;
 }
 
 export default function Button({ onPress, title = "Mostrar Productos" }: ButtonProps) {
