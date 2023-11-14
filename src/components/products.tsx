@@ -1,30 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
-import { getFakestore } from "../services/fakestore.service";
-import { Data } from "../interfaces/fakestore.interface"
+import { StyleSheet } from 'react-native';
 import { FlatList, View, Text } from 'react-native';
+import { ProductsProps } from '../interfaces/products.interface';
 
-const Products: React.FC = () => {
-    const [productos, setProductos] = useState<Data[]>([]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                console.log("Obteniendo productos...");
-                
-                const data = await getFakestore();
-                setProductos(data);
-            } catch (error) {
-                console.error("Ha ocurrido un error: ", error);
-            }
-        };
-        fetchData();
-    }, []);
-
+const Products: React.FC<ProductsProps> = ({ data }) => {
     return (
         <View>
             <FlatList
-                data={productos}
+                data={data}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <View style={styles.itemContainer}>
